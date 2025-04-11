@@ -24,20 +24,11 @@ I like working in Python. I have so far worked with databases like SQLite and My
 
 ## 💼 Projects
 
-### 🛒 Store Management System
-A Django-based project where users can purchase items and their name, item, quantity, price, and total are stored in the database.
+### Expense Tracker
+This Django project allows users to manage their income, expenses, and budgets. It includes features such as category-wise tracking, selection of payment methods, and user authentication for a secure and personalized experience.
 
 ### 🌡️ Weather App
-A Django project that shows real-time temperature by scraping Google based on user input (city name).
-
-### 🛋️ Furniture Shop Review Platform (In Progress)
-A DRF project where users can view and review furniture shops, view contact details, and chat with shop owners.
-
-### 📚 Exam Pattern Analyzer (Planned)
-Upload PDFs, extract likely exam questions using analysis and help students prepare better.
-
-### 📓 Social Media Diary App
-A platform where users can write daily routines (diary format), make them public/private, and receive likes/comments.
+A Django project that shows real-time temperature by scraping Google based on user input (city name
 
 ---
 
