@@ -30,7 +30,7 @@ This Django project allows users to manage their income, expenses, and budgets. 
 
 
 
-### 🌡️ Weather Apppgvgb
+###  Google Temperature
 This project allows users to get the current temperature of any city using Google search results. It uses web scraping with BeautifulSoup to extract live data and displays it via a Django-powered API. The temperature data is also stored in a MySQL database for further analysis.
   [View Project](https://github.com/Piyushkumarsaini/Google-Temperature)
 
