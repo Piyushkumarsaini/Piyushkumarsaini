@@ -1,6 +1,6 @@
 # 👋 Hello! I'm Piyush Kumar Saini
 
-**Aspiring Backend Developer | Python Enthusiast | Django Developer | Web Scraping Explorer**
+**Python Backend Developer | OOPS | Django | API Development | Web Scraping | SQL | Git & GitHub**
 
 I'm a passionate backend developer with a strong interest in Python and Django.  
 Currently, I'm learning by building real-world projects and exploring how backend development works in actual applications.
@@ -27,7 +27,9 @@ I like working in Python. I have so far worked with databases like SQLite and My
 ### Expense Tracker
 This Django project allows users to manage their income, expenses, and budgets. It includes features such as category-wise tracking, selection of payment methods, and user authentication for a secure and personalized experience.
 🔗 [View Project](https://github.com/Piyushkumarsaini/expense_tracker)
-### 🌡️ Weather App
+
+
+### 🌡️ Weather Apppgvgb
 A Django project that shows real-time temperature by scraping Google based on user input (city name
 
 ---
@@ -47,14 +49,6 @@ A Django project that shows real-time temperature by scraping Google based on us
 
 ## ⚡ Fun Fact:
 I tweet daily about my journey as a Backend Developer, sharing Python tips, Django insights, and career progress. Follow along and let’s grow together!
-
----
-
-## 🔥 GitHub Stats
-
-![Piyush's GitHub Stats](https://github-readme-stats.vercel.app/api?username=your-username&show_icons=true&theme=tokyonight)
-
-![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=your-username&layout=compact&theme=tokyonight)
 
 ---
 
