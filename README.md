@@ -26,7 +26,7 @@ I like working in Python. I have so far worked with databases like SQLite and My
 
 ### Expense Tracker
 This Django project allows users to manage their income, expenses, and budgets. It includes features such as category-wise tracking, selection of payment methods, and user authentication for a secure and personalized experience.
-
+🔗 [View Project](https://github.com/Piyushkumarsaini/expense_tracker)
 ### 🌡️ Weather App
 A Django project that shows real-time temperature by scraping Google based on user input (city name
 
