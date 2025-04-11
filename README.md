@@ -47,10 +47,11 @@ A platform where users can write daily routines (diary format), make them public
 
 ## 🧑‍💻 Let's Connect!
 
-- 📫 Email: `piyushkumarsaini6@gmail.com`  
-- 💼 LinkedIn: [linkedin]((https://www.linkedin.com/in/piyush-kumar-saini?)
+- 📫 Email: piyushkumarsaini6@gmail.com  
+- 💼 LinkedIn: [linkedin.com/in/piyush-kumar-saini](https://www.linkedin.com/in/piyush-kumar-saini)  
+- 🐙 GitHub: [github.com/your-username](https://github.com/your-username)  
+- ✨ X (Twitter): [twitter.com/your_username](https://twitter.com/your_username)  
 - 🌐 Portfolio Website: *Coming Soon*
-
 ---
 
 ## ⚡ Fun Fact:
