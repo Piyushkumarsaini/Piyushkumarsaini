@@ -49,8 +49,8 @@ A platform where users can write daily routines (diary format), make them public
 
 - 📫 Email: piyushkumarsaini6@gmail.com  
 - 💼 LinkedIn: [linkedin.com/in/piyush-kumar-saini](https://www.linkedin.com/in/piyush-kumar-saini)  
-- 🐙 GitHub: [github.com/your-username](https://github.com/Piyushkumarsaini)
-- ✨ X (Twitter): [twitter.com/your_username](https://x.com/Piyush_kuma_01)
+- 🐙 GitHub: [github.com/Piyushkumarsaini](https://github.com/Piyushkumarsaini)
+- ✨ X (Twitter): [twitter.com/Piyush_kuma_01](https://x.com/Piyush_kuma_01)
 - 🌐 Portfolio Website: *Coming Soon*
 ---
 
