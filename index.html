@@ -1,470 +1,371 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amazing Box Fractals (Metallic Gradient)</title>
-    <!-- Tailwind CSS CDN for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- p5.js CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
-    <style>
-        /* Custom styles for the body and canvas container */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0d1117; /* Dark background for contrast */
-            color: #e2e8f0; /* Light text color */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Modern Frontend Developer — Portfolio</title>
+
+  <!-- Tailwind Play CDN for quick prototyping (light mode utilities included) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Tailwind config (light mode only, keeps things simple)
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0f172a',
+            accent: '#06b6d4',
+            soft: '#f8fafc'
+          }
         }
-        canvas {
-            display: block; /* Remove extra space below canvas */
-            border-radius: 1rem; /* Rounded corners for the canvas */
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* Subtle shadow */
-            max-width: 100%; /* Ensure responsiveness */
-            height: auto;
-        }
-        /* Style for the information and controls sections */
-        .section-container {
-            background-color: #161b22;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            margin-top: 2rem;
-            max-width: 800px;
-            width: 100%;
-        }
-        .section-container h2 {
-            color: #60a5fa; /* Blue heading */
-            margin-bottom: 1rem;
-        }
-        .section-container p, .section-container ul {
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-        /* Styling for range sliders */
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #60a5fa;
-            cursor: pointer;
-            box-shadow: 0 0 5px rgba(0,0,0,0.5);
-        }
-        input[type="range"]::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #60a5fa;
-            cursor: pointer;
-            box-shadow: 0 0 5px rgba(0,0,0,0.5);
-        }
-    </style>
+      }
+    }
+  </script>
+
+  <!-- Fallback fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- ----------
+       SCSS (source) — place this into your SCSS toolchain if you want to edit
+       ---------->
+  <!--
+  $primary: #0f172a;
+  $accent: #06b6d4;
+  $soft: #f8fafc;
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: $soft;
+    color: $primary;
+  }
+
+  .progress {
+    background: lighten($primary, 40%);
+    height: 8px;
+    border-radius: 999px;
+    overflow: hidden;
+
+    &__bar {
+      height: 100%;
+      background: linear-gradient(90deg, $accent, darken($accent, 10%));
+      width: 0;
+      transition: width 800ms cubic-bezier(.22,.98,.35,.99);
+    }
+  }
+
+  .card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(10,11,13,0.06);
+    padding: 1rem;
+  }
+  -->
+
+  <!-- Compiled minimal CSS (from SCSS above) + tiny utility tweaks -->
+  <style>
+    :root{--primary:#0f172a;--accent:#06b6d4;--soft:#f8fafc}
+    html,body{height:100%}
+    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;line-height:1.5;background:var(--soft);color:var(--primary);-webkit-font-smoothing:antialiased}
+
+    /* small card style */
+    .card{background:#fff;border-radius:12px;box-shadow:0 6px 20px rgba(10,11,13,0.06);padding:1rem}
+
+    /* progress */
+    .progress{background:rgba(15,23,42,0.06);height:8px;border-radius:999px;overflow:hidden}
+    .progress__bar{height:100%;background:linear-gradient(90deg,var(--accent),#0598b2);width:0;transition:width 800ms cubic-bezier(.22,.98,.35,.99)}
+
+    /* Navbar backdrop */
+    .nav-blur{backdrop-filter: blur(6px);background: rgba(255,255,255,0.6)}
+
+    /* small utilities */
+    .badge{display:inline-block;padding:.25rem .5rem;border-radius:999px;font-weight:600}
+
+    /* Scroll animation helpers */
+    .reveal {opacity:0;transform:translateY(18px);transition:opacity 700ms ease, transform 700ms cubic-bezier(.2,.9,.3,1)}
+    .reveal.is-visible{opacity:1;transform:none}
+
+    /* Hero accent underline */
+    .accent-underline{display:inline-block;background:linear-gradient(90deg,var(--accent),rgba(6,182,212,0.8));height:8px;width:100%;border-radius:6px;transform:translateY(.6rem)}
+
+    /* responsive tweaks for image */
+    .hero-img{max-width:420px;width:80%;height:auto;border-radius:12px;box-shadow:0 18px 40px rgba(6,182,212,0.08)}
+
+    @media (min-width:1024px){
+      .hero-img{width:420px}
+    }
+  </style>
+
 </head>
 <body class="antialiased">
 
-    <div class="container mx-auto p-4 text-center">
-        <h1 class="text-4xl font-bold mb-6 text-blue-400">The Amazing Box Fractals</h1>
-        <p class="text-lg mb-8 text-gray-300">
-            Explore the infinite complexity of different 3D fractals with a stunning metallic gradient finish.
-        </p>
+  <!-- NAVBAR -->
+  <header class="fixed w-full z-40 top-4 px-4">
+    <nav class="max-w-6xl mx-auto flex items-center justify-between p-3 rounded-2xl nav-blur">
+      <a href="#home" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-sky-400 to-cyan-400 flex items-center justify-center text-white font-bold">JS</div>
+        <div>
+          <div class="text-sm font-semibold">Jatin Saini</div>
+          <div class="text-xs text-slate-600">Frontend Developer</div>
+        </div>
+      </a>
+
+      <ul class="hidden md:flex items-center gap-6 text-sm">
+        <li><a href="#home" class="hover:underline">Home</a></li>
+        <li><a href="#about" class="hover:underline">About</a></li>
+        <li><a href="#skills" class="hover:underline">Skills</a></li>
+        <li><a href="#projects" class="hover:underline">Projects</a></li>
+        <li><a href="#contact" class="hover:underline">Contact</a></li>
+      </ul>
+
+      <a href="#contact" class="hidden md:inline-block bg-gradient-to-r from-sky-400 to-cyan-400 text-white px-4 py-2 rounded-lg text-sm">Hire me</a>
+
+      <!-- mobile menu (simple) -->
+      <div class="md:hidden">
+        <button id="mobileToggle" aria-label="menu" class="p-2 rounded-lg hover:bg-slate-100">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="#0f172a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile nav panel -->
+    <div id="mobileNav" class="hidden mt-2 max-w-6xl mx-auto bg-white rounded-2xl shadow p-4">
+      <ul class="flex flex-col gap-3 text-sm">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
     </div>
+  </header>
 
-    <!-- p5.js sketch will be embedded here -->
-    <div id="p5-canvas-container" class="flex justify-center items-center w-full">
-        <!-- The p5.js canvas will be created inside this div -->
-    </div>
+  <main class="pt-28">
 
-    <!-- UI Controls -->
-    <div class="section-container controls-section">
-        <h2 class="text-2xl font-semibold">Fractal Controls</h2>
+    <!-- HERO -->
+    <section id="home" class="max-w-6xl mx-auto px-6 lg:px-0 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center py-20">
+      <div>
+        <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight reveal">Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-cyan-400">Jatin</span> — a Frontend Developer.</h1>
+        <p class="mt-6 text-slate-600 max-w-2xl reveal">I build accessible, responsive and modern web experiences using HTML, CSS (SCSS), JavaScript and modern frameworks. I love small buttery animations and clean interfaces.</p>
 
-        <div class="mb-4">
-            <label for="fractalTypeDisplay" class="block text-sm font-medium text-gray-300">Current Fractal Type:</label>
-            <span id="fractalTypeDisplay" class="text-lg font-bold text-blue-300">Menger Sponge</span>
+        <div class="mt-8 flex gap-4 reveal">
+          <a href="#projects" class="px-5 py-3 bg-gradient-to-r from-sky-400 to-cyan-400 rounded-lg text-white font-semibold">See projects</a>
+          <a href="#contact" class="px-5 py-3 border rounded-lg text-sm">Get in touch</a>
         </div>
 
-        <div class="mb-4">
-            <label for="fractalSize" class="block text-sm font-medium text-gray-300">Fractal Size:</label>
-            <input type="range" id="fractalSize" min="100" max="800" value="500" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer">
-            <span id="fractalSizeValue" class="text-sm text-gray-400">500</span>
+        <div class="mt-8 flex gap-3 items-center reveal">
+          <div class="text-sm text-slate-500">Currently:</div>
+          <div class="badge" style="background:linear-gradient(90deg,#ecfeff,#e0f2fe);">Open for internships</div>
         </div>
 
-        <div class="mb-4">
-            <label for="maxLevel" class="block text-sm font-medium text-gray-300">Detail Level:</label>
-            <input type="range" id="maxLevel" min="0" max="4" value="0" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer">
-            <span id="maxLevelValue" class="text-sm text-gray-400">0</span>
-        </div>
+      </div>
 
-        <div class="mb-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div class="flex-1 w-full">
-                <label for="gradientColor1" class="block text-sm font-medium text-gray-300 mb-1">Gradient Top Color:</label>
-                <input type="color" id="gradientColor1" value="#A0A0A0" class="w-full h-10 rounded-md cursor-pointer border border-gray-600">
+      <div class="flex justify-center lg:justify-end">
+        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='600'><rect fill='%23f8fafc' width='100%' height='100%'/><g transform='translate(140,80)'><rect rx='14' width='520' height='420' fill='%23fff' stroke='%23e6eef3'/><text x='40' y='80' font-size='28' fill='%230f172a' font-family='Inter, sans-serif'>Mockup</text><text x='40' y='120' font-size='14' fill='%23777'>Replace this with a screenshot of a project</text></g></svg>" alt="hero image" class="hero-img" />
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="max-w-6xl mx-auto px-6 lg:px-0 py-12">
+      <div class="grid lg:grid-cols-3 gap-8 items-start">
+        <div class="lg:col-span-2">
+          <h2 class="text-2xl font-semibold reveal">About me</h2>
+          <p class="mt-4 text-slate-600 reveal">I'm a frontend developer focused on crafting delightful user experiences. My toolkit includes HTML, modern CSS (including SCSS), JavaScript, and I enjoy working with React and p5.js for interactive visuals.</p>
+
+          <div class="mt-6 grid sm:grid-cols-2 gap-4">
+            <div class="card reveal">
+              <div class="text-sm font-semibold">Experience</div>
+              <div class="text-slate-600 text-sm mt-2">Freelance &amp; College projects — building web apps, interactive sketches and portfolio sites.</div>
             </div>
-            <div class="flex-1 w-full">
-                <label for="gradientColor2" class="block text-sm font-medium text-gray-300 mb-1">Gradient Bottom Color:</label>
-                <input type="color" id="gradientColor2" value="#404040" class="w-full h-10 rounded-md cursor-pointer border border-gray-600">
+            <div class="card reveal">
+              <div class="text-sm font-semibold">Education</div>
+              <div class="text-slate-600 text-sm mt-2">B.Tech (CSE) with a minor in Information Technology.</div>
             </div>
+          </div>
         </div>
 
-        <div class="flex flex-col sm:flex-row justify-between gap-4">
-            <button id="toggleAutoRotate" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
-                Toggle Auto-Rotation (ON)
-            </button>
-            <button id="changeFractalTypeButton" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
-                Change Fractal Type
-            </button>
+        <aside class="card">
+          <div class="text-sm font-semibold">Contact</div>
+          <div class="text-slate-600 text-sm mt-2">Email: <a href="mailto:youremail@example.com" class="text-sky-500">youremail@example.com</a></div>
+          <div class="mt-4">
+            <div class="text-sm font-semibold">Location</div>
+            <div class="text-slate-600 text-sm mt-1">India</div>
+          </div>
+
+          <div class="mt-4">
+            <div class="text-sm font-semibold">Social</div>
+            <div class="mt-2 flex gap-2 text-slate-500 text-sm">
+              <a href="#">GitHub</a>
+              <a href="#">|</a>
+              <a href="#">LinkedIn</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="max-w-6xl mx-auto px-6 lg:px-0 py-12">
+      <h2 class="text-2xl font-semibold reveal">Skills</h2>
+      <p class="text-slate-600 mt-3 reveal">A few technologies I work with frequently.</p>
+
+      <div class="mt-6 grid sm:grid-cols-2 gap-6">
+        <div class="card reveal">
+          <div class="flex justify-between items-center">
+            <div class="font-semibold">HTML &amp; CSS (SCSS)</div>
+            <div class="text-sm text-slate-500">Expert</div>
+          </div>
+          <div class="mt-3 progress"><div class="progress__bar" data-value="95%"></div></div>
         </div>
-    </div>
 
-    <div class="section-container info-section">
-        <h2 class="text-2xl font-semibold">What are Box Fractals?</h2>
-        <p>
-            Box fractals are 3D geometric shapes that exhibit self-similarity at different scales. They are constructed by repeatedly applying
-            a set of subdivision rules to a cube. Each iteration removes or keeps certain smaller cubes from a 3x3x3 grid, leading to
-            increasingly complex and intricate structures.
-        </p>
-        <h3 class="text-xl font-semibold mt-4 text-blue-300">Menger Sponge</h3>
-        <p>
-            The Menger Sponge is a classic example. It's built by dividing a cube into 27 smaller cubes and removing the central cube
-            and the 6 central cubes on each face. This leaves 20 smaller cubes, and the process is recursively applied to each of them.
-            In the limit, it has infinite surface area but zero volume.
-        </p>
-        <h3 class="text-xl font-semibold mt-4 text-blue-300">Hollow Cube Fractal</h3>
-        <p>
-            This is a simpler variant where, at each iteration, a cube is divided into 27 smaller cubes, and only the very central cube is removed.
-            This leaves 26 smaller cubes. When iterated, it creates a fractal that looks like a hollowed-out cube with smaller hollows within.
-            This fractal is less "dense" than the Menger Sponge at higher iterations.
-        </p>
-        <h3 class="text-xl font-semibold mt-4 text-blue-300">Cube Frame Fractal</h3>
-        <p>
-            This fractal variant is created by removing the central cube and the six face-center cubes from each 3x3x3 subdivision.
-            What remains are the 8 corner cubes and the 12 edge-center cubes, forming a skeletal, wireframe-like structure that repeats at smaller scales.
-            It provides a distinct visual contrast to the more solid Menger Sponge and Hollow Cube fractals.
-        </p>
-        <h2 class="text-2xl font-semibold mt-6">The Metallic Gradient Effect</h2>
-        <p>
-            This visualization applies a dynamic metallic gradient to the fractal. Instead of a single metallic color,
-            each individual cube's color smoothly transitions from a "top" color to a "bottom" color based on its vertical position within the overall fractal.
-            This creates a richer, more visually appealing metallic surface. The effect is achieved by:
-        </p>
-        <ul class="list-disc list-inside ml-4">
-            <li>Using `fill()` with a dynamically calculated RGB color for each cube, blending between two user-defined gradient colors based on the cube's Y-coordinate.</li>
-            <li>Applying `specularMaterial()` with white highlights to define the color of the light sources reflected off the surface.</li>
-            <li>Increasing the `shininess()` value significantly to create sharp, focused reflections, mimicking a highly polished metal.</li>
-            <li>Adjusting the `stroke()` and `strokeWeight()` to create subtle, defined edges that complement the metallic look.</li>
-            <li>Employing multiple dynamic `pointLight` sources to create complex and shifting reflections across the metallic surfaces, enhancing the sense of depth and realism.</li>
-        </ul>
-        <h2 class="text-2xl font-semibold mt-6">Interaction Guide</h2>
-        <ul class="list-disc list-inside ml-4">
-            <li><strong>Click "Change Fractal Type" button:</strong> Switches between Menger Sponge, Hollow Cube, and Cube Frame fractals.</li>
-            <li><strong>Click "Toggle Auto-Rotation" button:</strong> Toggles automatic rotation on/off.</li>
-            <li><strong>Drag mouse on the fractal:</strong> Manually rotate the fractal (if auto-rotation is off, or to temporarily override it).</li>
-            <li><strong>Mouse scroll wheel on the fractal:</strong> Zoom in and out.</li>
-            <li><strong>Use "Detail Level" slider:</strong> Change the fractal's complexity.</li>
-            <li><strong>Use "Fractal Size" slider:</strong> Adjust the overall size of the fractal.</li>
-            <li><strong>Use "Gradient Top/Bottom Color" pickers:</strong> Customize the metallic gradient colors.</li>
-        </ul>
-    </div>
+        <div class="card reveal">
+          <div class="flex justify-between items-center">
+            <div class="font-semibold">JavaScript</div>
+            <div class="text-sm text-slate-500">Advanced</div>
+          </div>
+          <div class="mt-3 progress"><div class="progress__bar" data-value="88%"></div></div>
+        </div>
 
-    <!-- p5.js sketch -->
-    <script>
-        // Global variables for the fractal
-        let fractalCube; // The root FractalCube object
-        let initialBoxSize = 100; // Initial size of the largest cube in the fractal
-        let currentLevel = 0; // Current fractal level (0 means just the single initial box)
-        const MAX_LEVEL_LIMIT = 3; // Absolute maximum fractal level to prevent performance issues
+        <div class="card reveal">
+          <div class="flex justify-between items-center">
+            <div class="font-semibold">React</div>
+            <div class="text-sm text-slate-500">Intermediate</div>
+          </div>
+          <div class="mt-3 progress"><div class="progress__bar" data-value="78%"></div></div>
+        </div>
 
-        // Animation and interaction controls
-        let autoRotate = true; // Toggle for automatic rotation
-        let rotationSpeed = 0.01; // Speed of automatic rotation
-        let lightOrbitRadius = 600; // Radius for the point light's orbit
-        let lightOrbitSpeed = 0.01; // Speed of the point light's orbit
+        <div class="card reveal">
+          <div class="flex justify-between items-center">
+            <div class="font-semibold">p5.js / three.js</div>
+            <div class="text-sm text-slate-500">Beginner-Intermediate</div>
+          </div>
+          <div class="mt-3 progress"><div class="progress__bar" data-value="65%"></div></div>
+        </div>
+      </div>
+    </section>
 
-        // Fractal Type control
-        const FRACTAL_TYPES = ['menger_sponge', 'hollow_cube', 'cube_frame']; // Added 'cube_frame'
-        let currentFractalTypeIndex = 0;
-        let currentFractalType = FRACTAL_TYPES[currentFractalTypeIndex]; // Default to Menger Sponge
+    <!-- PROJECTS -->
+    <section id="projects" class="max-w-6xl mx-auto px-6 lg:px-0 py-12">
+      <h2 class="text-2xl font-semibold reveal">Projects</h2>
+      <p class="text-slate-600 mt-3 reveal">Selected works — click to view (links are placeholders).</p>
 
-        // UI controlled values (initialized to match default slider values)
-        let ui_initialBoxSize = 500;
-        let ui_maxLevel = 0;
-        let ui_gradientColor1 = [1, 160, 10]; // Default silver-top (RGB: #A0A0A0)
-        let ui_gradientColor2 = [64, 64, 0];   // Default silver-bottom (RGB: #404040)
+      <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Project card -->
+        <article class="card reveal">
+          <div class="text-sm font-semibold">Interactive Portfolio</div>
+          <p class="text-slate-600 text-sm mt-2">Single-page portfolio with p5.js hero animation and responsive layout.</p>
+          <div class="mt-4 flex items-center justify-between">
+            <a href="#" class="text-sm">View</a>
+            <div class="text-xs text-slate-500">HTML • SCSS • JS</div>
+          </div>
+        </article>
 
-        // FractalCube Class: Represents a single cube within the fractal
-        class FractalCube {
-          constructor(x, y, z, s) {
-            this.pos = createVector(x, y, z); // Position of the cube's center
-            this.s = s; // Size (side length) of the cube
-            this.children = []; // Array to hold sub-cubes if this cube is subdivided
-          }
+        <article class="card reveal">
+          <div class="text-sm font-semibold">Chat App (Blockchain)</div>
+          <p class="text-slate-600 text-sm mt-2">A college project — secure chat built with a simple blockchain concept.</p>
+          <div class="mt-4 flex items-center justify-between">
+            <a href="#" class="text-sm">View</a>
+            <div class="text-xs text-slate-500">React • Node</div>
+          </div>
+        </article>
 
-          // This method recursively generates children for this cube based on the fractal type.
-          generateChildren() {
-            // If this cube has no children, it's a leaf node, so we subdivide it.
-            if (this.children.length === 0) {
-              let newS = this.s / 3; // Each sub-cube is 1/3 the size of its parent
+        <article class="card reveal">
+          <div class="text-sm font-semibold">3D Racing Mini-game</div>
+          <p class="text-slate-600 text-sm mt-2">A neon-styled WebGL racing prototype.</p>
+          <div class="mt-4 flex items-center justify-between">
+            <a href="#" class="text-sm">View</a>
+            <div class="text-xs text-slate-500">three.js</div>
+          </div>
+        </article>
+      </div>
+    </section>
 
-              // Iterate through a 3x3x3 grid to create 27 potential sub-cubes
-              for (let i = -1; i <= 1; i++) {
-                for (let j = -1; j <= 1; j++) {
-                  for (let k = -1; k <= 1; k++) {
-                    let includeCube = false;
+    <!-- CONTACT -->
+    <section id="contact" class="max-w-6xl mx-auto px-6 lg:px-0 py-12">
+      <h2 class="text-2xl font-semibold reveal">Contact</h2>
+      <p class="text-slate-600 mt-3 reveal">Want to work together? Send a message.</p>
 
-                    // Apply subdivision rule based on current fractal type
-                    if (currentFractalType === 'menger_sponge') {
-                      // Menger Sponge rule: remove center and face centers
-                      if (abs(i) + abs(j) + abs(k) > 1) {
-                        includeCube = true;
-                      }
-                    } else if (currentFractalType === 'hollow_cube') {
-                      // Hollow Cube rule: remove only the very center cube
-                      if (i != 0 || j != 0 || k != 0) {
-                        includeCube = true;
-                      }
-                    } else if (currentFractalType === 'cube_frame') {
-                      // Cube Frame rule: remove center and face centers (keep corners and edges)
-                      // This is equivalent to: include if not (center OR face center)
-                      if (!((i == 0 && j == 0 && k == 0) || (abs(i) + abs(j) + abs(k) == 1))) {
-                          includeCube = true;
-                      }
-                    }
+      <div class="mt-6 grid lg:grid-cols-2 gap-6">
+        <form class="card reveal" onsubmit="event.preventDefault(); alert('Form demo — replace with your backend');">
+          <div class="grid gap-3">
+            <input required placeholder="Your name" class="px-4 py-3 rounded-lg border" />
+            <input required placeholder="Your email" type="email" class="px-4 py-3 rounded-lg border" />
+            <textarea required placeholder="Message" rows="5" class="px-4 py-3 rounded-lg border"></textarea>
+            <button type="submit" class="px-4 py-3 bg-gradient-to-r from-sky-400 to-cyan-400 text-white rounded-lg">Send message</button>
+          </div>
+        </form>
 
-                    if (includeCube) {
-                      // Calculate the position of the new sub-cube
-                      let newX = this.pos.x + i * newS;
-                      let newY = this.pos.y + j * newS;
-                      let newZ = this.pos.z + k * newS;
-                      // Add the new sub-cube to this cube's children
-                      this.children.push(new FractalCube(newX, newY, newZ, newS));
-                    }
-                  }
-                }
-              }
-            } else {
-              // If this cube already has children, recursively call generateChildren on them.
-              for (let child of this.children) {
-                child.generateChildren();
-              }
+        <aside class="card reveal">
+          <div class="font-semibold">Quick info</div>
+          <p class="text-slate-600 text-sm mt-2">Available for internships and freelance work. Open to frontend roles that value clean UI and animations.</p>
+
+          <div class="mt-6">
+            <div class="text-sm font-semibold">Tech stack</div>
+            <div class="mt-2 text-sm text-slate-600">HTML, SCSS, Tailwind CSS, JavaScript, React, p5.js, three.js</div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <footer class="max-w-6xl mx-auto px-6 lg:px-0 py-10 text-center text-sm text-slate-500">
+      © "Your Name" — Built with HTML, SCSS & Tailwind • Light mode
+    </footer>
+
+  </main>
+
+  <!-- Scripts: mobile nav toggle, reveal on scroll, progress bars animation -->
+  <script>
+    // Mobile nav
+    const mobileToggle = document.getElementById('mobileToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    mobileToggle?.addEventListener('click', ()=> mobileNav.classList.toggle('hidden'));
+
+    // IntersectionObserver to reveal elements on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          // once visible, unobserve to avoid re-running animations
+          io.unobserve(entry.target);
+        }
+      });
+    },{threshold:0.12});
+    reveals.forEach(r=>io.observe(r));
+
+    // Animate progress bars when in view using data-value
+    const progressBars = document.querySelectorAll('.progress__bar');
+    progressBars.forEach(pb=>{
+      const val = pb.getAttribute('data-value') || '0%';
+      // when parent card reveals, set width (we observe parent)
+      const parent = pb.closest('.reveal') || pb.parentElement;
+      if(parent){
+        const pio = new IntersectionObserver((entries)=>{
+          entries.forEach(e=>{
+            if(e.isIntersecting){
+              pb.style.width = val;
+              pio.unobserve(e.target);
             }
-          }
+          })
+        },{threshold:0.2});
+        pio.observe(parent);
+      }
+    });
 
-          // Method to display the cube or its children
-          show() {
-            // If this cube has no children, it's a leaf node, so we draw it.
-            if (this.children.length === 0) {
-              push(); // Save the current transformation matrix
-              translate(this.pos.x, this.pos.y, this.pos.z); // Move to the cube's position
-
-              // Calculate normalized Y position relative to the initial fractal height
-              // This assumes the fractal is centered at (0,0,0)
-              let normalizedY = map(this.pos.y, -initialBoxSize / 2, initialBoxSize / 2, 0, 1);
-              // Clamp to ensure it's within 0-1 range
-              normalizedY = constrain(normalizedY, 0, 1);
-
-              // Interpolate between the two gradient colors for the fill
-              let r = lerp(ui_gradientColor2[0], ui_gradientColor1[0], normalizedY);
-              let g = lerp(ui_gradientColor2[1], ui_gradientColor1[1], normalizedY);
-              let b = lerp(ui_gradientColor2[2], ui_gradientColor1[2], normalizedY);
-
-              fill(r, g, b); // Apply the gradient color to this cube
-
-              // Apply metallic material properties
-              specularMaterial(255, 255, 255); // White specular highlights for a bright metallic shine
-              shininess(300); // Very high shininess for a highly polished metal
-
-              box(this.s); // Draw the cube with its size
-              pop(); // Restore the previous transformation matrix
-            } else {
-              // If this cube has children, recursively call their show methods.
-              // This draws all the smaller cubes that make up this level of the fractal.
-              for (let child of this.children) {
-                child.show();
-              }
-            }
-          }
+    // Smooth-scrolling for nav
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const href = a.getAttribute('href');
+        if(href && href.startsWith('#')){
+          e.preventDefault();
+          const el = document.querySelector(href);
+          if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+          // close mobile nav on navigation
+          if(!mobileNav.classList.contains('hidden')) mobileNav.classList.add('hidden');
         }
+      });
+    });
+  </script>
 
-        // Setup function: runs once when the sketch starts
-        function setup() {
-          // Set pixel density to 1 for performance, especially on high-DPI screens.
-          pixelDensity(2);
-
-          // Create a canvas in WEBGL mode for 3D rendering
-          let canvas = createCanvas(windowWidth * 0.9, windowHeight * 0.8, WEBGL);
-          canvas.parent('p5-canvas-container'); // Attach canvas to the container div
-
-          // Set the background color (a deep space blue)
-          background(20, 30, 50);
-
-          // Enable smooth rendering for better visual quality
-          smooth();
-
-          // Allow users to manually orbit the camera with mouse clicks/drags and zoom with scroll wheel
-          orbitControl();
-
-          // Initialize the fractal for the first time
-          buildFractal();
-
-          // --- UI Element References and Event Listeners ---
-          const fractalTypeDisplay = select('#fractalTypeDisplay');
-          const fractalSizeSlider = select('#fractalSize');
-          const fractalSizeValueSpan = select('#fractalSizeValue');
-          const maxLevelSlider = select('#maxLevel');
-          const maxLevelValueSpan = select('#maxLevelValue');
-          const gradientColor1Input = select('#gradientColor1');
-          const gradientColor2Input = select('#gradientColor2');
-          const toggleAutoRotateButton = select('#toggleAutoRotate');
-          const changeFractalTypeButton = select('#changeFractalTypeButton');
-
-          // Initialize UI values from sketch defaults
-          fractalSizeSlider.value(initialBoxSize);
-          fractalSizeValueSpan.html(initialBoxSize);
-          maxLevelSlider.value(currentLevel);
-          maxLevelValueSpan.html(currentLevel);
-          maxLevelSlider.attribute('max', MAX_LEVEL_LIMIT); // Set max attribute for slider
-          fractalTypeDisplay.html(getFractalTypeName(currentFractalType)); // Set initial fractal type display
-
-          // Event Listeners for UI controls
-          fractalSizeSlider.input(() => {
-            ui_initialBoxSize = parseInt(fractalSizeSlider.value());
-            fractalSizeValueSpan.html(ui_initialBoxSize);
-            initialBoxSize = ui_initialBoxSize; // Update global variable
-            buildFractal(); // Rebuild with new size
-          });
-
-          maxLevelSlider.input(() => {
-            ui_maxLevel = parseInt(maxLevelSlider.value());
-            maxLevelValueSpan.html(ui_maxLevel);
-            currentLevel = ui_maxLevel; // Update global variable
-            buildFractal(); // Rebuild with new level
-          });
-
-          gradientColor1Input.input(() => {
-            ui_gradientColor1 = hexToRgb(gradientColor1Input.value());
-          });
-
-          gradientColor2Input.input(() => {
-            ui_gradientColor2 = hexToRgb(gradientColor2Input.value());
-          });
-
-          toggleAutoRotateButton.mousePressed(() => {
-            autoRotate = !autoRotate;
-            toggleAutoRotateButton.html(`Toggle Auto-Rotation (${autoRotate ? 'ON' : 'OFF'})`);
-          });
-
-          changeFractalTypeButton.mousePressed(() => {
-            changeFractalType();
-          });
-        }
-
-        // Function to build (or rebuild) the fractal based on currentLevel and type
-        function buildFractal() {
-          // Create the initial large cube at the origin
-          fractalCube = new FractalCube(0, 0, 0, initialBoxSize);
-          // Generate the fractal up to the currentLevel by recursively subdividing
-          for (let i = 0; i < currentLevel; i++) {
-            fractalCube.generateChildren(); // Call the generic generateChildren method
-          }
-        }
-
-        // Function to cycle through fractal types
-        function changeFractalType() {
-            currentFractalTypeIndex = (currentFractalTypeIndex + 1) % FRACTAL_TYPES.length;
-            currentFractalType = FRACTAL_TYPES[currentFractalTypeIndex];
-            select('#fractalTypeDisplay').html(getFractalTypeName(currentFractalType)); // Update display
-            currentLevel = 0; // Reset level when changing fractal type for clarity
-            select('#maxLevel').value(currentLevel); // Update slider
-            select('#maxLevelValue').html(currentLevel); // Update slider value display
-            buildFractal(); // Rebuild the fractal with the new type
-        }
-
-        // Helper function to get readable fractal type name
-        function getFractalTypeName(type) {
-            switch(type) {
-                case 'menger_sponge': return 'Menger Sponge';
-                case 'hollow_cube': return 'Hollow Cube';
-                case 'cube_frame': return 'Cube Frame'; // Added new type name
-                default: return 'Unknown Fractal';
-            }
-        }
-
-        // Draw function: runs continuously, creating the animation
-        function draw() {
-          // Clear the background on each frame to prevent trails
-          background(20, 30, 50);
-
-          // Apply automatic rotation if enabled
-          if (autoRotate) {
-            // Rotate around X and Y axes based on frameCount for continuous motion
-            rotateX(frameCount * rotationSpeed);
-            rotateY(frameCount * rotationSpeed * 0.5); // Slightly different speed for Y-axis
-          }
-
-          // Set up lighting for the scene
-          // Directional light for general illumination (subtle white light)
-          directionalLight(180, 180, 180, -0.5, 1, -0.5); // Slightly brighter directional light
-
-          // Ambient light for overall brightness, preventing completely dark areas
-          ambientLight(10); // Increased ambient light for metallic sheen
-
-          // Dynamic Point Light 1: orbits around the fractal (warm, yellowish light)
-          let light1X = cos(frameCount * lightOrbitSpeed) * lightOrbitRadius;
-          let light1Y = sin(frameCount * lightOrbitSpeed) * lightOrbitRadius;
-          let light1Z = sin(frameCount * lightOrbitSpeed * 0.7) * lightOrbitRadius * 0.5; // Z-motion for more dynamic effect
-          pointLight(211, 211, 101, light1X, light1Y, light1Z);
-
-          // Dynamic Point Light 2: orbits around the fractal (cool, bluish light)
-          let light2X = cos(frameCount * lightOrbitSpeed * 1.2 + PI) * lightOrbitRadius * 0.8; // Different speed and offset
-          let light2Y = sin(frameCount * lightOrbitSpeed * 1.2 + PI) * lightOrbitRadius * 0.8;
-          let light2Z = cos(frameCount * lightOrbitSpeed * 0.9) * lightOrbitRadius * 0.6;
-          pointLight(100, 150, 255, light2X, light2Y, light2Z); // Cool, bluish light
-
-          // Set the stroke color and weight for the fractal edges
-          stroke(100, 100, 100); // Darker gray stroke for subtle metallic edges
-          strokeWeight(0.5); // Slightly thicker lines for a sleek metal look
-
-          // Display the fractal
-          fractalCube.show();
-        }
-
-        // Helper function to convert hex color string to RGB array
-        function hexToRgb(hex) {
-          let r = 0, g = 0, b = 0;
-          // handle 3 char hex (e.g., #FFF)
-          if (hex.length == 4) {
-            r = parseInt(hex[1] + hex[1], 16);
-            g = parseInt(hex[2] + hex[2], 16);
-            b = parseInt(hex[3] + hex[3], 16);
-          }
-          // handle 6 char hex (e.g., #FFFFFF)
-          else if (hex.length == 7) {
-            r = parseInt(hex.substring(1, 3), 16);
-            g = parseInt(hex.substring(3, 5), 16);
-            b = parseInt(hex.substring(5, 7), 16);
-          }
-          return [r, g, b];
-        }
-
-        // Function to handle window resizing
-        function windowResized() {
-          // Resize the canvas when the window is resized
-          resizeCanvas(windowWidth * 0.9, windowHeight * 0.8);
-          // Redraw the background and re-apply lighting (though lighting is generally global)
-          background(20, 30, 50);
-          directionalLight(180, 180, 180, -0.5, 1, -0.5);
-          ambientLight(80);
-          // Point light position will be recalculated in draw()
-        }
-    </script>
 </body>
 </html>
