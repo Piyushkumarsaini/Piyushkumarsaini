@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Modern Frontend Developer — Portfolio</title>
+
+  <!-- Tailwind Play CDN for quick prototyping (light mode utilities included) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Tailwind config (light mode only, keeps things simple)
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0f172a',
+            accent: '#06b6d4',
+            soft: '#f8fafc'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Fallback fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- ----------
+       SCSS (source) — place this into your SCSS toolchain if you want to edit
+       ---------->
+  <!--
+  $primary: #0f172a;
+  $accent: #06b6d4;
+  $soft: #f8fafc;
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: $soft;
+    color: $primary;
+  }
+
+  .progress {
+    background: lighten($primary, 40%);
+    height: 8px;
+    border-radius: 999px;
+    overflow: hidden;
+
+    &__bar {
+      height: 100%;
+      background: linear-gradient(90deg, $accent, darken($accent, 10%));
+      width: 0;
+      transition: width 800ms cubic-bezier(.22,.98,.35,.99);
+    }
+  }
+
+  .card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(10,11,13,0.06);
+    padding: 1rem;
+  }
+  -->
+
+  <!-- Compiled minimal CSS (from SCSS above) + tiny utility tweaks -->
+  <style>
+    :root{--primary:#0f172a;--accent:#06b6d4;--soft:#f8fafc}
+    html,body{height:100%}
+    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;line-height:1.5;background:var(--soft);color:var(--primary);-webkit-font-smoothing:antialiased}
+
+    /* small card style */
+    .card{background:#fff;border-radius:12px;box-shadow:0 6px 20px rgba(10,11,13,0.06);padding:1rem}
+
+    /* progress */
+    .progress{background:rgba(15,23,42,0.06);height:8px;border-radius:999px;overflow:hidden}
+    .progress__bar{height:100%;background:linear-gradient(90deg,var(--accent),#0598b2);width:0;transition:width 800ms cubic-bezier(.22,.98,.35,.99)}
+
+    /* Navbar backdrop */
+    .nav-blur{backdrop-filter: blur(6px);background: rgba(255,255,255,0.6)}
+
+    /* small utilities */
+    .badge{display:inline-block;padding:.25rem .5rem;border-radius:999px;font-weight:600}
+
+    /* Scroll animation helpers */
+    .reveal {opacity:0;transform:translateY(18px);transition:opacity 700ms ease, transform 700ms cubic-bezier(.2,.9,.3,1)}
+    .reveal.is-visible{opacity:1;transform:none}
+
+    /* Hero accent underline */
+    .accent-underline{display:inline-block;background:linear-gradient(90deg,var(--accent),rgba(6,182,212,0.8));height:8px;width:100%;border-radius:6px;transform:translateY(.6rem)}
+
+    /* responsive tweaks for image */
+    .hero-img{max-width:420px;width:80%;height:auto;border-radius:12px;box-shadow:0 18px 40px rgba(6,182,212,0.08)}
+
+    @media (min-width:1024px){
+      .hero-img{width:420px}
+    }
+  </style>
+
+</head>
+<body class="antialiased">
+
+  <!-- NAVBAR -->
+  <header class="fixed w-full z-40 top-4 px-4">
+    <nav class="max-w-6xl mx-auto flex items-center justify-between p-3 rounded-2xl nav-blur">
+      <a href="#home" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-sky-400 to-cyan-400 flex items-center justify-center text-white font-bold">JS</div>
+        <div>
+          <div class="text-sm font-semibold">Jatin Saini</div>
+          <div class="text-xs text-slate-600">Frontend Developer</div>
+        </div>
+      </a>
+
+      <ul class="hidden md:flex items-center gap-6 text-sm">
+        <li><a href="#home" class="hover:underline">Home</a></li>
+        <li><a href="#about" class="hover:underline">About</a></li>
+        <li><a href="#skills" class="hover:underline">Skills</a></li>
+        <li><a href="#projects" class="hover:underline">Projects</a></li>
+        <li><a href="#contact" class="hover:underline">Contact</a></li>
+      </ul>
+
+      <a href="#contact" class="hidden md:inline-block bg-gradient-to-r from-sky-400 to-cyan-400 text-white px-4 py-2 rounded-lg text-sm">Hire me</a>
+
+      <!-- mobile menu (simple) -->
+      <div class="md:hidden">
+        <button id="mobileToggle" aria-label="menu" class="p-2 rounded-lg hover:bg-slate-100">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="#0f172a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile nav panel -->
+    <div id="mobileNav" class="hidden mt-2 max-w-6xl mx-auto bg-white rounded-2xl shadow p-4">
+      <ul class="flex flex-col gap-3 text-sm">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="pt-28">
+
+    <!-- HERO -->
+    <section id="home" class="max-w-6xl mx-auto px-6 lg:px-0 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center py-20">
+      <div>
+        <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight reveal">Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-cyan-400">Jatin</span> — a Frontend Developer.</h1>
+        <p class="mt-6 text-slate-600 max-w-2xl reveal">I build accessible, responsive and modern web experiences using HTML, CSS (SCSS), JavaScript and modern frameworks. I love small buttery animations and clean interfaces.</p>
+
+        <div class="mt-8 flex gap-4 reveal">
+          <a href="#projects" class="px-5 py-3 bg-gradient-to-r from-sky-400 to-cyan-400 rounded-lg text-white font-semibold">See projects</a>
+          <a href="#contact" class="px-5 py-3 border rounded-lg text-sm">Get in touch</a>
+        </div>
+
+        <div class="mt-8 flex gap-3 items-center reveal">
+          <div class="text-sm text-slate-500">Currently:</div>
+          <div class="badge" style="background:linear-gradient(90deg,#ecfeff,#e0f2fe);">Open for internships</div>
+        </div>
+
+      </div>
+
+      <div class="flex justify-center lg:justify-end">
+        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='600'><rect fill='%23f8fafc' width='100%' height='100%'/><g transform='translate(140,80)'><rect rx='14' width='520' height='420' fill='%23fff' stroke='%23e6eef3'/><text x='40' y='80' font-size='28' fill='%230f172a' font-family='Inter, sans-serif'>Mockup</text><text x='40' y='120' font-size='14' fill='%23777'>Replace this with a screenshot of a project</text></g></svg>" alt="hero image" class="hero-img" />
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="max-w-6xl mx-auto px-6 lg:px-0 py-12">
+      <div class="grid lg:grid-cols-3 gap-8 items-start">
+        <div class="lg:col-span-2">
+          <h2 class="text-2xl font-semibold reveal">About me</h2>
+          <p class="mt-4 text-slate-600 reveal">I'm a frontend developer focused on crafting delightful user experiences. My toolkit includes HTML, modern CSS (including SCSS), JavaScript, and I enjoy working with React and p5.js for interactive visuals.</p>
+
+          <div class="mt-6 grid sm:grid-cols-2 gap-4">
+            <div class="card reveal">
+              <div class="text-sm font-semibold">Experience</div>
+              <div class="text-slate-600 text-sm mt-2">Freelance &amp; College projects — building web apps, interactive sketches and portfolio sites.</div>
+            </div>
+            <div class="card reveal">
+              <div class="text-sm font-semibold">Education</div>
+              <div class="text-slate-600 text-sm mt-2">B.Tech (CSE) with a minor in Information Technology.</div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="card">
+          <div class="text-sm font-semibold">Contact</div>
+          <div class="text-slate-600 text-sm mt-2">Email: <a href="mailto:youremail@example.com" class="text-sky-500">youremail@example.com</a></div>
+          <div class="mt-4">
+            <div class="text-sm font-semibold">Location</div>
+            <div class="text-slate-600 text-sm mt-1">India</div>
+          </div>
+
+          <div class="mt-4">
+            <div class="text-sm font-semibold">Social</div>
+            <div class="mt-2 flex gap-2 text-slate-500 text-sm">
+              <a href="#">GitHub</a>
+              <a href="#">|</a>
+              <a href="#">LinkedIn</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="max-w-6xl mx-auto px-6 lg:px-0 py-12">
+      <h2 class="text-2xl font-semibold reveal">Skills</h2>
+      <p class="text-slate-600 mt-3 reveal">A few technologies I work with frequently.</p>
+
+      <div class="mt-6 grid sm:grid-cols-2 gap-6">
+        <div class="card reveal">
+          <div class="flex justify-between items-center">
+            <div class="font-semibold">HTML &amp; CSS (SCSS)</div>
+            <div class="text-sm text-slate-500">Expert</div>
+          </div>
+          <div class="mt-3 progress"><div class="progress__bar" data-value="95%"></div></div>
+        </div>
+
+        <div class="card reveal">
+          <div class="flex justify-between items-center">
+            <div class="font-semibold">JavaScript</div>
+            <div class="text-sm text-slate-500">Advanced</div>
+          </div>
+          <div class="mt-3 progress"><div class="progress__bar" data-value="88%"></div></div>
+        </div>
+
+        <div class="card reveal">
+          <div class="flex justify-between items-center">
+            <div class="font-semibold">React</div>
+            <div class="text-sm text-slate-500">Intermediate</div>
+          </div>
+          <div class="mt-3 progress"><div class="progress__bar" data-value="78%"></div></div>
+        </div>
+
+        <div class="card reveal">
+          <div class="flex justify-between items-center">
+            <div class="font-semibold">p5.js / three.js</div>
+            <div class="text-sm text-slate-500">Beginner-Intermediate</div>
+          </div>
+          <div class="mt-3 progress"><div class="progress__bar" data-value="65%"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="max-w-6xl mx-auto px-6 lg:px-0 py-12">
+      <h2 class="text-2xl font-semibold reveal">Projects</h2>
+      <p class="text-slate-600 mt-3 reveal">Selected works — click to view (links are placeholders).</p>
+
+      <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Project card -->
+        <article class="card reveal">
+          <div class="text-sm font-semibold">Interactive Portfolio</div>
+          <p class="text-slate-600 text-sm mt-2">Single-page portfolio with p5.js hero animation and responsive layout.</p>
+          <div class="mt-4 flex items-center justify-between">
+            <a href="#" class="text-sm">View</a>
+            <div class="text-xs text-slate-500">HTML • SCSS • JS</div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="text-sm font-semibold">Chat App (Blockchain)</div>
+          <p class="text-slate-600 text-sm mt-2">A college project — secure chat built with a simple blockchain concept.</p>
+          <div class="mt-4 flex items-center justify-between">
+            <a href="#" class="text-sm">View</a>
+            <div class="text-xs text-slate-500">React • Node</div>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="text-sm font-semibold">3D Racing Mini-game</div>
+          <p class="text-slate-600 text-sm mt-2">A neon-styled WebGL racing prototype.</p>
+          <div class="mt-4 flex items-center justify-between">
+            <a href="#" class="text-sm">View</a>
+            <div class="text-xs text-slate-500">three.js</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="max-w-6xl mx-auto px-6 lg:px-0 py-12">
+      <h2 class="text-2xl font-semibold reveal">Contact</h2>
+      <p class="text-slate-600 mt-3 reveal">Want to work together? Send a message.</p>
+
+      <div class="mt-6 grid lg:grid-cols-2 gap-6">
+        <form class="card reveal" onsubmit="event.preventDefault(); alert('Form demo — replace with your backend');">
+          <div class="grid gap-3">
+            <input required placeholder="Your name" class="px-4 py-3 rounded-lg border" />
+            <input required placeholder="Your email" type="email" class="px-4 py-3 rounded-lg border" />
+            <textarea required placeholder="Message" rows="5" class="px-4 py-3 rounded-lg border"></textarea>
+            <button type="submit" class="px-4 py-3 bg-gradient-to-r from-sky-400 to-cyan-400 text-white rounded-lg">Send message</button>
+          </div>
+        </form>
+
+        <aside class="card reveal">
+          <div class="font-semibold">Quick info</div>
+          <p class="text-slate-600 text-sm mt-2">Available for internships and freelance work. Open to frontend roles that value clean UI and animations.</p>
+
+          <div class="mt-6">
+            <div class="text-sm font-semibold">Tech stack</div>
+            <div class="mt-2 text-sm text-slate-600">HTML, SCSS, Tailwind CSS, JavaScript, React, p5.js, three.js</div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <footer class="max-w-6xl mx-auto px-6 lg:px-0 py-10 text-center text-sm text-slate-500">
+      © "Your Name" — Built with HTML, SCSS & Tailwind • Light mode
+    </footer>
+
+  </main>
+
+  <!-- Scripts: mobile nav toggle, reveal on scroll, progress bars animation -->
+  <script>
+    // Mobile nav
+    const mobileToggle = document.getElementById('mobileToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    mobileToggle?.addEventListener('click', ()=> mobileNav.classList.toggle('hidden'));
+
+    // IntersectionObserver to reveal elements on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          // once visible, unobserve to avoid re-running animations
+          io.unobserve(entry.target);
+        }
+      });
+    },{threshold:0.12});
+    reveals.forEach(r=>io.observe(r));
+
+    // Animate progress bars when in view using data-value
+    const progressBars = document.querySelectorAll('.progress__bar');
+    progressBars.forEach(pb=>{
+      const val = pb.getAttribute('data-value') || '0%';
+      // when parent card reveals, set width (we observe parent)
+      const parent = pb.closest('.reveal') || pb.parentElement;
+      if(parent){
+        const pio = new IntersectionObserver((entries)=>{
+          entries.forEach(e=>{
+            if(e.isIntersecting){
+              pb.style.width = val;
+              pio.unobserve(e.target);
+            }
+          })
+        },{threshold:0.2});
+        pio.observe(parent);
+      }
+    });
+
+    // Smooth-scrolling for nav
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const href = a.getAttribute('href');
+        if(href && href.startsWith('#')){
+          e.preventDefault();
+          const el = document.querySelector(href);
+          if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+          // close mobile nav on navigation
+          if(!mobileNav.classList.contains('hidden')) mobileNav.classList.add('hidden');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
