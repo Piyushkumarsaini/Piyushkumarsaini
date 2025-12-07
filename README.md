@@ -42,11 +42,14 @@ This project allows users to get the current temperature of any city using Googl
 
 ## 🧑‍💻 Let's Connect!
 
-- 📫 Email: piyushkumarsaini6@gmail.com  
-- 💼 LinkedIn: [linkedin.com/in/piyush-kumar-saini](https://www.linkedin.com/in/piyush-kumar-saini)  
-- 🐙 GitHub: [github.com/Piyushkumarsaini](https://github.com/Piyushkumarsaini)
-- ✨ X (Twitter): [twitter.com/Piyush_kuma_01](https://x.com/Piyush_kuma_01)
-- 🌐 Portfolio Website: *Coming Soon*
+* 📫 **Email:** [piyushkumarsaini6@gmail.com](mailto:piyushkumarsaini6@gmail.com)
+* 💼 **LinkedIn:** [linkedin.com/in/piyush-kumar-saini](https://www.linkedin.com/in/piyush-kumar-saini)
+* ✨ **X (Twitter):** [twitter.com/Piyush_kuma_01](https://x.com/Piyush_kuma_01)
+* 📸 **Instagram:** [instagram.com/piyush_kumar_saini_](https://www.instagram.com/piyush_kumar_saini_/)
+* 📘 **Facebook:** [facebook.com/piyush_kumar_saini](https://www.facebook.com/profile.php?id=61573014205466)
+* 🧵 **Threads:** [threads.com/@piyush_kumar_saini_](https://www.threads.com/@piyush_kumar_saini_)
+* ▶️ **YouTube:** [youtube.com/@TechITWord](https://www.youtube.com/@TechITWord)
+
 ---
 
 ## ⚡ Fun Fact:
